@@ -1,0 +1,8 @@
+{
+  "Default Import Component": {
+    "scope": "javascript,typescript",
+    "prefix": "v3-import-default-component",
+    "body": ["import { $1 } from '../components'"],
+    "description": "Bootstrap the code needed for a Vue.js Pinia Options Store file",
+  },
+}
