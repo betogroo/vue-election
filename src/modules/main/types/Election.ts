@@ -7,7 +7,7 @@ import {
 
 const requiredStringField = () => z.string({ required_error })
 
-export const baseElectionSchema = z.object({
+export const electionSchema = z.object({
   id: requiredStringField().uuid(),
   created_at: z.string(),
   date: requiredStringField(),
@@ -22,11 +22,13 @@ export const baseElectionSchema = z.object({
     .max(5, 'O número deve ser entre 1 e 5'),
 })
 
-export const insertElectionSchema = baseElectionSchema.omit({
+export const electionSchemaList = z.array(electionSchema)
+
+export const insertElectionSchema = electionSchema.omit({
   id: true,
   created_at: true,
 })
 
-export type Election = z.infer<typeof baseElectionSchema>
+export type Election = z.infer<typeof electionSchema>
 
 export type ElectionInsert = z.infer<typeof insertElectionSchema>
