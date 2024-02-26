@@ -8,6 +8,9 @@ import ProfileHead from './ProfileHead.vue'
 import ProfileInfo from './ProfileInfo.vue'
 import SignupForm from './SignupForm.vue'
 
+//shared
+import { AppLoading } from '@/shared/components'
+
 export {
   AlertError,
   LoginForm,
@@ -18,4 +21,5 @@ export {
   ProfileHead,
   ProfileInfo,
   SignupForm,
+  AppLoading,
 }
