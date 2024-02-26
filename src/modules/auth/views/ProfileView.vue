@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // library imports
-import { ref } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 
 // components
@@ -11,6 +11,7 @@ import {
   AlertError,
   ProfileAvatar,
   ProfileAvatarButtons,
+  AppLoading,
 } from '../components'
 
 // types
@@ -98,7 +99,9 @@ const cancelUpdate = async () => {
   avatarStore.file = null
 }
 
-await loadProfile()
+onBeforeMount(async () => {
+  await loadProfile()
+})
 </script>
 
 <template>
