@@ -128,6 +128,33 @@ const useElection = () => {
       }
     }
   }
+
+  const deleteElection = async (id: string) => {
+    await delay()
+    try {
+      error.value = false
+      isPending.value = {
+        action: '-election',
+        value: true,
+      }
+      const { error: err } = await supabase
+        .from('election')
+        .delete()
+        .eq('id', id)
+      if (err)
+        throw new Error(
+          `Erro ao tentar excluir a eleição: ${err.message} (${err.code})`,
+        )
+    } catch (err) {
+      const e = err as Error
+      console.error(e)
+    } finally {
+      isPending.value = {
+        action: '',
+        value: false,
+      }
+    }
+  }
   return {
     addElectionDialog,
     election,
@@ -135,6 +162,7 @@ const useElection = () => {
     electionTableHeader,
     isPending,
     addElection,
+    deleteElection,
     fetchElections,
     getElection,
   }

@@ -4,6 +4,7 @@ import { AppGenericTable, ElectionForm } from '../components'
 import { ElectionInsert } from '../types/Election'
 const {
   elections,
+  deleteElection: _deleteElection,
   fetchElections,
   electionTableHeader,
   addElection: _addElection,
@@ -20,6 +21,15 @@ const addElection = async (election: ElectionInsert) => {
     console.error(e)
   }
 }
+const deleteElection = async (id: string) => {
+  try {
+    await _deleteElection(id)
+    await fetchElections()
+  } catch (err) {
+    const e = err as Error
+    console.error(e)
+  }
+}
 
 await fetchElections()
 </script>
@@ -28,9 +38,11 @@ await fetchElections()
   <AppGenericTable
     v-model="addElectionDialog"
     aim-view="ElectionView"
+    :delete-pending="isPending.action === 'delete-pending' && isPending.value"
     :headers="electionTableHeader"
     :table-data="elections"
     title="Eleições Cadastradas"
+    @delete-item-confirm="(id) => deleteElection(id)"
   >
     <template #addForm
       ><ElectionForm
