@@ -1,11 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ElectionsView, AppLoading } from '../components'
+</script>
 <template>
-  <v-container class="d-flex justify-center fill-height">
-    <v-responsive
-      class="text-center"
-      max-width="600"
-    >
-      <h1 class="text-center text-h3">LISTA DAS ELEIÇÕES</h1>
-    </v-responsive>
-  </v-container>
+  <Suspense>
+    <v-container>
+      <ElectionsView />
+    </v-container>
+    <template #fallback><AppLoading /></template>
+  </Suspense>
 </template>

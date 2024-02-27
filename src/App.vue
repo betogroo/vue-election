@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAuthStore } from './modules/auth/store/useAuthStore'
-import { AppBar } from '@/shared/components'
+import { AppBar, AppLoading } from '@/shared/components'
 import { useAuth } from './modules/auth/composables'
 import { useRoute, useRouter } from 'vue-router'
 const { isPending, logout } = useAuth()
@@ -16,17 +16,17 @@ const handleLogout = async () => {
 </script>
 <template>
   <v-app>
-    <AppBar
-      v-if="!route.meta.hideAppBar"
-      :is-pending="isPending === 'logout'"
-      :user="store.user"
-      @logout="handleLogout"
-    />
+    <Suspense>
+      <AppBar
+        v-if="!route.meta.hideAppBar"
+        :is-pending="isPending === 'logout'"
+        :user="store.user"
+        @logout="handleLogout"
+      />
+      <template #fallback><AppLoading /></template>
+    </Suspense>
     <v-main>
-      <Suspense>
-        <RouterView />
-        <template #fallback>...</template>
-      </Suspense>
+      <RouterView />
     </v-main>
   </v-app>
 </template>
