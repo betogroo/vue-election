@@ -2,6 +2,6 @@ import ElectionsView from './ElectionsView.vue'
 import AppVersion from './AppVersion.vue'
 
 //shared
-import { AppLoading } from '@/shared/components'
+import { AppLoading, AppGenericTable } from '@/shared/components'
 
-export { AppVersion, AppLoading, ElectionsView }
+export { AppVersion, AppLoading, ElectionsView, AppGenericTable }

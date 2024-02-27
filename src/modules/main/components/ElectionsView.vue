@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { useElection } from '../composables'
-const { elections, fetchElections } = useElection()
+import { AppGenericTable } from '../components'
+const { elections, fetchElections, electionTableHeader } = useElection()
 
 await fetchElections()
 </script>
 
 <template>
-  <div
-    v-for="election in elections"
-    :key="election.id"
+  <AppGenericTable
+    aim-view="HomeView"
+    :headers="electionTableHeader"
+    :table-data="elections"
+    title="Eleições Cadastradas"
   >
-    {{ election.name }}
-  </div>
+  </AppGenericTable>
 </template>
