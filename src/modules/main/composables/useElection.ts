@@ -1,6 +1,11 @@
 import { ref } from 'vue'
 import { supabase } from '@/plugins/supabase'
-import { Election, ElectionInsert, electionSchemaList } from '../types/Election'
+import {
+  Election,
+  ElectionInsert,
+  electionSchemaList,
+  electionSchema,
+} from '../types/Election'
 import { useHelpers } from '@/shared/composables'
 import { TableHeader, IsPending } from '@/shared/types/App'
 const { delay } = useHelpers()
@@ -67,6 +72,32 @@ const useElection = () => {
     }
   }
 
+  const getElection = async (id: string) => {
+    await delay()
+    try {
+      const { data, error: err } = await supabase
+        .from('election')
+        .select('*')
+        .eq('id', id)
+        .returns<Election[]>()
+        .single()
+      if (err)
+        throw new Error(
+          `Erro ao buscar a eleição: ${err.message} (${err.code})`,
+        )
+      if (!data) throw new Error('Erro ao carregar a eleição!')
+      election.value = electionSchema.parse(data)
+    } catch (err) {
+      const e = err as Error
+      console.error(e)
+    } finally {
+      isPending.value = {
+        action: '',
+        value: false,
+      }
+    }
+  }
+
   const addElection = async (values: ElectionInsert) => {
     try {
       error.value = false
@@ -98,13 +129,14 @@ const useElection = () => {
     }
   }
   return {
+    addElectionDialog,
     election,
     elections,
-    isPending,
     electionTableHeader,
-    fetchElections,
+    isPending,
     addElection,
-    addElectionDialog,
+    fetchElections,
+    getElection,
   }
 }
 

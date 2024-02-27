@@ -3,7 +3,9 @@ import { ElectionsView, AppLoading } from '../components'
 </script>
 <template>
   <Suspense>
-    <ElectionsView />
+    <v-container>
+      <ElectionsView />
+    </v-container>
     <template #fallback><AppLoading /></template>
   </Suspense>
 </template>

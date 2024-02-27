@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ElectionCard, AppLoading } from '../components'
 interface Props {
   id: string
 }
@@ -6,5 +7,8 @@ defineProps<Props>()
 </script>
 
 <template>
-  <h2>Eleição número: {{ id }}</h2>
+  <Suspense>
+    <ElectionCard :id="id" />
+    <template #fallback><AppLoading /></template>
+  </Suspense>
 </template>

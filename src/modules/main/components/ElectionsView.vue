@@ -27,7 +27,7 @@ await fetchElections()
 <template>
   <AppGenericTable
     v-model="addElectionDialog"
-    aim-view="HomeView"
+    aim-view="ElectionView"
     :headers="electionTableHeader"
     :table-data="elections"
     title="Eleições Cadastradas"
