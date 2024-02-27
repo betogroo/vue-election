@@ -1,14 +1,18 @@
 import { ref } from 'vue'
 import { supabase } from '@/plugins/supabase'
-import { Election, electionSchemaList } from '../types/Election'
+import { Election, ElectionInsert, electionSchemaList } from '../types/Election'
 import { useHelpers } from '@/shared/composables'
-import { TableHeader } from '@/shared/types/App'
+import { TableHeader, IsPending } from '@/shared/types/App'
 const { delay } = useHelpers()
 const useElection = () => {
   const error = ref<string | false>(false)
-  const isPending = ref<boolean>(false)
+  const isPending = ref<IsPending>({
+    value: false,
+  })
   const election = ref<Election>()
   const elections = ref<Election[]>([])
+
+  const addElectionDialog = ref(false)
 
   const electionTableHeader: TableHeader[] = [
     {
@@ -37,7 +41,10 @@ const useElection = () => {
     await delay()
     try {
       error.value = false
-      isPending.value = true
+      isPending.value = {
+        action: 'fetchElections',
+        value: true,
+      }
       const { data, error: err } = await supabase
         .from('election')
         .select('*')
@@ -53,10 +60,52 @@ const useElection = () => {
       error.value = e.message
       console.log(e)
     } finally {
-      isPending.value = false
+      isPending.value = {
+        action: '',
+        value: false,
+      }
     }
   }
-  return { election, elections, isPending, fetchElections, electionTableHeader }
+
+  const addElection = async (values: ElectionInsert) => {
+    try {
+      error.value = false
+      isPending.value = {
+        action: 'add-election',
+        value: true,
+      }
+      const { data, error: err } = await supabase
+        .from('election')
+        .insert(values)
+        .select()
+        .returns<Election[]>()
+        .single()
+      if (err)
+        throw new Error(
+          `Erro ao tentar cadastrar eleição: ${err.message} (${err.code})`,
+        )
+      addElectionDialog.value = false
+      return data
+    } catch (err) {
+      const e = err as Error
+      error.value = e.message
+      console.log(e)
+    } finally {
+      isPending.value = {
+        action: '',
+        value: false,
+      }
+    }
+  }
+  return {
+    election,
+    elections,
+    isPending,
+    electionTableHeader,
+    fetchElections,
+    addElection,
+    addElectionDialog,
+  }
 }
 
 export default useElection
