@@ -14,6 +14,7 @@ interface Props {
 withDefaults(defineProps<Props>(), {
   title: '',
   tableSubject: '',
+  deletePending: false,
 })
 
 const $emit = defineEmits<{
@@ -22,18 +23,22 @@ const $emit = defineEmits<{
 const dialogDelete = ref(false)
 const dialogForm = defineModel<boolean>()
 const idToDelete = ref<string>('')
+const rowIndex = ref(-1)
 
 const closeDialogForm = () => {
   dialogForm.value = false
 }
 
-const handleDelete = (id: string) => {
+const handleDelete = (id: string, index: number) => {
   idToDelete.value = ''
+  rowIndex.value = index
+  console.log(rowIndex.value)
   dialogDelete.value = true
   idToDelete.value = id
 }
 
 const closeDelete = () => {
+  rowIndex.value = -1
   idToDelete.value = ''
   dialogDelete.value = false
 }
@@ -132,7 +137,7 @@ const deleteItemConfirm = (election_id: string) => {
         </v-dialog>
       </v-toolbar>
     </template>
-    <template #item.actions="{ item }">
+    <template #item.actions="{ item, index }">
       <div
         v-if="item.id"
         class="d-flex"
@@ -145,8 +150,9 @@ const deleteItemConfirm = (election_id: string) => {
         ></v-btn>
         <v-btn
           icon="mdi-delete"
+          :loading="dialogDelete && index === rowIndex"
           variant="text"
-          @click="handleDelete(item.id)"
+          @click="handleDelete(item.id, index)"
         ></v-btn>
       </div>
     </template>
