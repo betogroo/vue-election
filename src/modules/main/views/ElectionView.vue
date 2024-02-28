@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ElectionCard, AppLoading } from '../components'
+import { ElectionContainer, AppLoading } from '../components'
 interface Props {
   id: string
 }
@@ -8,7 +8,7 @@ defineProps<Props>()
 
 <template>
   <Suspense>
-    <ElectionCard :id="id" />
+    <ElectionContainer :id="id" />
     <template #fallback><AppLoading /></template>
   </Suspense>
 </template>

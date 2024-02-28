@@ -1,16 +1,19 @@
-import ElectionForm from './ElectionForm.vue'
-import ElectionsView from './ElectionsView.vue'
-import ElectionCard from './ElectionCard.vue'
-import AppVersion from './AppVersion.vue'
-
 //shared
 import { AppLoading, AppGenericTable } from '@/shared/components'
 
+//module
+import AppVersion from './AppVersion.vue'
+import ElectionCard from './ElectionCard.vue'
+import ElectionContainer from './ElectionContainer.vue'
+import ElectionForm from './ElectionForm.vue'
+import ElectionsView from './ElectionsView.vue'
+
 export {
-  AppVersion,
+  AppGenericTable,
   AppLoading,
+  AppVersion,
+  ElectionCard,
+  ElectionContainer,
   ElectionForm,
   ElectionsView,
-  AppGenericTable,
-  ElectionCard,
 }
