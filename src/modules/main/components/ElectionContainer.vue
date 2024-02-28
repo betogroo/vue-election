@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useElection } from '../composables'
-import { ElectionCard } from '.'
+import { ElectionCard, AppGenericTable } from '.'
 
 interface Props {
   id: string
@@ -37,5 +37,8 @@ await getElection(props.id)
         max-width="500"
       />
     </div>
+  </v-container>
+  <v-container>
+    <h1 class="text-h5">Candidatos</h1>
   </v-container>
 </template>
