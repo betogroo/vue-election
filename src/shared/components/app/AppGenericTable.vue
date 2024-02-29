@@ -65,21 +65,20 @@ const deleteItemConfirm = (election_id: string) => {
       </div></template
     >
     <template #top>
-      <v-toolbar density="compact">
-        <v-toolbar-title v-if="title">{{ title }}</v-toolbar-title>
-        <v-divider
-          class="mx-4"
-          inset
-          vertical
-        ></v-divider>
-        <v-spacer></v-spacer>
+      <v-sheet class="d-flex align-center justify-space-between">
+        <template v-if="title"
+          ><h1 class="text-h5">{{ title }}</h1></template
+        >
+
         <v-dialog
           v-model="dialogForm"
           max-width="500px"
         >
           <template v-slot:activator="{ props }">
             <v-btn
+              color="success"
               prepend-icon="mdi-plus-thick"
+              variant="outlined"
               v-bind="props"
             >
               Cadastrar {{ tableSubject }}
@@ -109,6 +108,8 @@ const deleteItemConfirm = (election_id: string) => {
             </v-card-actions>
           </v-card>
         </v-dialog>
+      </v-sheet>
+      <template>
         <v-dialog
           v-model="dialogDelete"
           max-width="500px"
@@ -135,7 +136,7 @@ const deleteItemConfirm = (election_id: string) => {
             </v-card-actions>
           </v-card>
         </v-dialog>
-      </v-toolbar>
+      </template>
     </template>
     <template #item.actions="{ item, index }">
       <div
