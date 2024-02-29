@@ -21,14 +21,31 @@ export const electionSchema = z.object({
     .min(1, 'O número deve ser entre 1 e 5')
     .max(5, 'O número deve ser entre 1 e 5'),
 })
-
-export const electionSchemaList = z.array(electionSchema)
-
 export const insertElectionSchema = electionSchema.omit({
   id: true,
   created_at: true,
 })
+export const electionSchemaList = z.array(electionSchema)
 
 export type Election = z.infer<typeof electionSchema>
 
 export type ElectionInsert = z.infer<typeof insertElectionSchema>
+
+export const candidateSchema = z.object({
+  id: requiredStringField().uuid(),
+  created_at: z.string(),
+  name: requiredStringField(),
+  avatar: z.string().url('Url inválida').default(''),
+  candidate_number: z.string(),
+  election_id: z.string(),
+})
+export const insertCandidateSchema = candidateSchema.omit({
+  id: true,
+  created_at: true,
+})
+
+export const candidatesSchema = z.array(candidateSchema)
+
+export type Candidate = z.infer<typeof candidateSchema>
+
+export type CandidateInsert = z.infer<typeof insertCandidateSchema>
