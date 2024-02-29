@@ -65,50 +65,56 @@ const deleteItemConfirm = (election_id: string) => {
       </div></template
     >
     <template #top>
-      <v-sheet class="d-flex align-center justify-space-between">
-        <template v-if="title"
+      <v-toolbar
+        color="transparent"
+        density="compact"
+      >
+        <template
+          v-if="title"
+          #title
           ><h1 class="text-h5">{{ title }}</h1></template
         >
-
-        <v-dialog
-          v-model="dialogForm"
-          max-width="500px"
-        >
-          <template v-slot:activator="{ props }">
-            <v-btn
-              color="success"
-              prepend-icon="mdi-plus-thick"
-              variant="outlined"
-              v-bind="props"
-            >
-              Cadastrar {{ tableSubject }}
-            </v-btn>
-          </template>
-          <v-card>
-            <v-card-title>
-              <span class="text-h5">Cadastrar {{ tableSubject }}</span>
-            </v-card-title>
-
-            <v-card-text>
-              <v-container>
-                <slot name="addForm"></slot>
-              </v-container>
-            </v-card-text>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
+        <template #append>
+          <v-dialog
+            v-model="dialogForm"
+            max-width="500px"
+          >
+            <template v-slot:activator="{ props }">
               <v-btn
-                block
-                color="warning"
+                color="success"
+                prepend-icon="mdi-plus-thick"
                 variant="outlined"
-                @click="closeDialogForm"
+                v-bind="props"
               >
-                Cancelar
+                Cadastrar {{ tableSubject }}
               </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-sheet>
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="text-h5">Cadastrar {{ tableSubject }}</span>
+              </v-card-title>
+
+              <v-card-text>
+                <v-container>
+                  <slot name="addForm"></slot>
+                </v-container>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  block
+                  color="warning"
+                  variant="outlined"
+                  @click="closeDialogForm"
+                >
+                  Cancelar
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </template>
+      </v-toolbar>
       <template>
         <v-dialog
           v-model="dialogDelete"
