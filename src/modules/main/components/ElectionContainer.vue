@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useElection } from '../composables'
-import { ElectionCard, AppGenericTable } from '.'
+import { useElection, useCandidates } from '../composables'
+import { BallotBoxCard, CandidateTable } from '.'
 
 interface Props {
   id: string
@@ -12,7 +12,15 @@ const ready = () => {
 }
 
 const { getElection, election } = useElection()
+const {
+  closeAddDialog,
+  addDialog,
+  fetchCandidates,
+  candidates,
+  tableHeader: candidatesTableHeader,
+} = useCandidates()
 await getElection(props.id)
+await fetchCandidates(props.id)
 </script>
 
 <template>
@@ -27,18 +35,62 @@ await getElection(props.id)
     <h2 class="text-body-1">{{ election.date }}</h2>
   </v-container>
   <v-container>
-    <h1 class="text-h5">Urnas</h1>
+    <v-sheet class="d-flex align-center justify-space-between">
+      <h1 class="text-h5">Urnas</h1>
+
+      <v-dialog
+        v-model="addDialog"
+        max-width="500px"
+      >
+        <template v-slot:activator="{ props }">
+          <v-btn
+            color="success"
+            prepend-icon="mdi-plus-thick"
+            variant="outlined"
+            v-bind="props"
+          >
+            Cadastrar {{ `Urna` }}
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-title>
+            <span class="text-h5">Cadastrar {{ `Urna` }}</span>
+          </v-card-title>
+
+          <v-card-text>
+            <v-container>
+              <slot name="addForm"></slot>
+            </v-container>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              block
+              color="warning"
+              variant="outlined"
+              @click="closeAddDialog"
+            >
+              Cancelar
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-sheet>
     <div class="d-flex flex-wrap align-center justify-center">
-      <ElectionCard
+      <BallotBoxCard
         v-for="item in 4"
         :id="item"
         :key="item"
         :is-ready="ready()"
-        max-width="500"
+        max-width="420"
       />
     </div>
   </v-container>
   <v-container>
-    <h1 class="text-h5">Candidatos</h1>
+    <CandidateTable
+      :candidates="candidates"
+      :table-header="candidatesTableHeader"
+    />
   </v-container>
 </template>
