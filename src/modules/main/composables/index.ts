@@ -1,3 +1,4 @@
+import useCandidates from './useCandidates'
 import useElection from './useElection'
 
-export { useElection }
+export { useCandidates, useElection }
