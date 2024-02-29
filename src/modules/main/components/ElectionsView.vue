@@ -41,6 +41,7 @@ await fetchElections()
     :delete-pending="isPending.action === 'delete-pending' && isPending.value"
     :headers="electionTableHeader"
     :table-data="elections"
+    table-subject="Eleição"
     title="Eleições Cadastradas"
     @delete-item-confirm="(id) => deleteElection(id)"
   >
