@@ -62,6 +62,7 @@ export const ballotBoxSchema = z.object({
 
 export const ballotBoxSchemaInsert = ballotBoxSchema.pick({
   site: true,
+  election_id: true,
 })
 
 export type BallotBox = z.infer<typeof ballotBoxSchema>

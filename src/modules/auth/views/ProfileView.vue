@@ -11,7 +11,6 @@ import {
   AlertError,
   ProfileAvatar,
   ProfileAvatarButtons,
-  AppLoading,
 } from '../components'
 
 // types

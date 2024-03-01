@@ -4,12 +4,20 @@ import { useField, useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { BallotBoxInsert, ballotBoxSchemaInsert } from '../types/Election'
 
+interface Props {
+  election_id: string
+}
+const props = defineProps<Props>()
 const $emit = defineEmits<{
   'handle-submit': [data: BallotBoxInsert]
 }>()
+
 const validationSchema = toTypedSchema(ballotBoxSchemaInsert)
 const { values, handleSubmit, meta, resetForm } = useForm<BallotBoxInsert>({
   validationSchema,
+  initialValues: {
+    election_id: props.election_id,
+  },
 })
 
 const site = useField('site', validationSchema)
