@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ElectionInsert, insertElectionSchema } from '../types/Election'
+import { ElectionInsert, electionSchemaInsert } from '../types/Election'
 import { useField, useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { z } from 'zod'
@@ -14,7 +14,7 @@ const $emit = defineEmits<{
   'handle-submit': [value: ElectionInsert]
 }>()
 
-const validationSchema = toTypedSchema(insertElectionSchema)
+const validationSchema = toTypedSchema(electionSchemaInsert)
 
 const { values, handleSubmit, meta, resetForm } = useForm<ElectionInsert>({
   validationSchema,
@@ -32,7 +32,7 @@ const candidate_number_length = useField(
 
 const onSubmit = handleSubmit(async () => {
   try {
-    const parsedValues = insertElectionSchema.parse(values)
+    const parsedValues = electionSchemaInsert.parse(values)
     console.log(parsedValues)
     $emit('handle-submit', parsedValues)
   } catch (err) {
