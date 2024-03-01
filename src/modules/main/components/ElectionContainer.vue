@@ -20,13 +20,16 @@ const {
   tableHeader: candidatesTableHeader,
 } = useCandidates()
 const {
+  ballotBoxList,
   addBallotBox,
   formDialog: ballotBoxFormDialog,
   closeFormDialog: ballotBoxCloseFormDialog,
+  fetchBallotBox,
 } = useBallotBox()
 
 await getElection(props.id)
 await fetchCandidates(props.id)
+await fetchBallotBox(props.id)
 </script>
 
 <template>
@@ -89,11 +92,11 @@ await fetchCandidates(props.id)
     </v-sheet>
     <div class="d-flex flex-wrap align-center justify-center">
       <BallotBoxCard
-        v-for="item in 4"
-        :id="item"
-        :key="item"
+        v-for="item in ballotBoxList"
+        :key="item.id"
+        :ballot-box="item"
         :is-ready="ready()"
-        max-width="420"
+        max-width="300"
       />
     </div>
   </v-container>

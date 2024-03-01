@@ -3,10 +3,12 @@ import {
   BallotBox,
   BallotBoxInsert,
   ballotBoxSchemaInsert,
+  ballotBoxListSchema,
 } from '../types/Election'
 import { ref } from 'vue'
 
 const useBallotBox = () => {
+  const ballotBoxList = ref<BallotBox[]>([])
   const formDialog = ref(false)
   const addBallotBox = async (formData: BallotBoxInsert) => {
     const parsedData = ballotBoxSchemaInsert.parse(formData)
@@ -29,12 +31,35 @@ const useBallotBox = () => {
       console.log(e)
     }
   }
+  const fetchBallotBox = async (election_id: string) => {
+    try {
+      const { data, error: err } = await supabase
+        .from('ballot_box')
+        .select('*')
+        .eq('election_id', election_id)
+        .returns<BallotBox[]>()
+      if (err || !data)
+        throw new Error(`Erro ao buscar as urna: ${err.message} (${err.code})`)
+      const parsedData = ballotBoxListSchema.parse(data)
+      ballotBoxList.value = parsedData
+      return data
+    } catch (err) {
+      const e = err as Error
+      console.log(e)
+    }
+  }
 
   const closeFormDialog = () => {
     formDialog.value = false
   }
 
-  return { addBallotBox, formDialog, closeFormDialog }
+  return {
+    addBallotBox,
+    formDialog,
+    closeFormDialog,
+    fetchBallotBox,
+    ballotBoxList,
+  }
 }
 
 export default useBallotBox

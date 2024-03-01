@@ -59,6 +59,7 @@ export const ballotBoxSchema = z.object({
   ready: z.nullable(z.string()).default(null),
   election_id: z.string(),
 })
+export const ballotBoxListSchema = z.array(ballotBoxSchema)
 
 export const ballotBoxSchemaInsert = ballotBoxSchema.pick({
   site: true,
