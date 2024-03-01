@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import type { BallotBox } from '../types/Election'
 interface Props {
-  id: string | number
+  ballotBox: BallotBox
   isReady: boolean
 }
 defineProps<Props>()
@@ -43,10 +44,10 @@ const goToBallotBox = (ballot_box_id: string | number) => {
       <template #title>
         <div
           class="d-flex justify-space-between align-center cursor-pointer"
-          @click="goToBallotBox(id)"
+          @click="goToBallotBox(ballotBox.id)"
         >
           <div>
-            <span class="text-h6">Urna {{ id }}</span>
+            <span class="text-h6">Urna {{ ballotBox.site }}</span>
             <span class="text-subtitle-1">
               ({{ `${!isReady ? 'Em votação' : 'Disponível'}` }})</span
             >
@@ -62,15 +63,15 @@ const goToBallotBox = (ballot_box_id: string | number) => {
         </div>
       </template>
       <v-card-actions class="d-flex justify-center">
-        <v-btn @click="handleMonitoring(id)">Monitorar</v-btn>
+        <v-btn @click="handleMonitoring(ballotBox.id)">Monitorar</v-btn>
         <v-btn
           v-if="!isReady"
-          @click="handleDisable(id)"
+          @click="handleDisable(ballotBox.id)"
           >Desabilitar</v-btn
         >
         <v-btn
           v-else
-          @click="handleEnable(id)"
+          @click="handleEnable(ballotBox.id)"
           >Habilitar</v-btn
         >
       </v-card-actions>
