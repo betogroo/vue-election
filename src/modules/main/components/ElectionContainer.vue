@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useElection, useCandidates } from '../composables'
-import { BallotBoxCard, CandidateTable } from '.'
+import { BallotBoxCard, CandidateTable, BallotBoxForm } from '.'
 
 interface Props {
   id: string
@@ -19,6 +19,10 @@ const {
   candidates,
   tableHeader: candidatesTableHeader,
 } = useCandidates()
+
+const addBallotBox = (data: any) => {
+  console.log(data)
+}
 await getElection(props.id)
 await fetchCandidates(props.id)
 </script>
@@ -59,7 +63,9 @@ await fetchCandidates(props.id)
 
           <v-card-text>
             <v-container>
-              <slot name="addForm"></slot>
+              <slot name="addForm"
+                ><BallotBoxForm @handle-submit="(data) => addBallotBox(data)"
+              /></slot>
             </v-container>
           </v-card-text>
 

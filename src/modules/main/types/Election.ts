@@ -60,9 +60,8 @@ export const ballotBoxSchema = z.object({
   election_id: z.string(),
 })
 
-export const ballotBoxSchemaInsert = ballotBoxSchema.omit({
-  id: true,
-  created_at: true,
+export const ballotBoxSchemaInsert = ballotBoxSchema.pick({
+  site: true,
 })
 
 export type BallotBox = z.infer<typeof ballotBoxSchema>
