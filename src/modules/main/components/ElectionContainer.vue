@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useElection, useCandidates } from '../composables'
-import { BallotBoxCard, CandidateTable } from '.'
+import { useElection, useCandidates, useBallotBox } from '../composables'
+import { BallotBoxCard, CandidateTable, BallotBoxForm } from '.'
 
 interface Props {
   id: string
@@ -13,12 +13,18 @@ const ready = () => {
 
 const { getElection, election } = useElection()
 const {
-  closeAddDialog,
-  addDialog,
+  //closeAddDialog,
+  //addDialog,
   fetchCandidates,
   candidates,
   tableHeader: candidatesTableHeader,
 } = useCandidates()
+const {
+  addBallotBox,
+  formDialog: ballotBoxFormDialog,
+  closeFormDialog: ballotBoxCloseFormDialog,
+} = useBallotBox()
+
 await getElection(props.id)
 await fetchCandidates(props.id)
 </script>
@@ -39,7 +45,7 @@ await fetchCandidates(props.id)
       <h1 class="text-h5">Urnas</h1>
 
       <v-dialog
-        v-model="addDialog"
+        v-model="ballotBoxFormDialog"
         max-width="500px"
       >
         <template v-slot:activator="{ props }">
@@ -59,7 +65,11 @@ await fetchCandidates(props.id)
 
           <v-card-text>
             <v-container>
-              <slot name="addForm"></slot>
+              <slot name="addForm"
+                ><BallotBoxForm
+                  :election_id="id"
+                  @handle-submit="(data) => addBallotBox(data)"
+              /></slot>
             </v-container>
           </v-card-text>
 
@@ -69,7 +79,7 @@ await fetchCandidates(props.id)
               block
               color="warning"
               variant="outlined"
-              @click="closeAddDialog"
+              @click="ballotBoxCloseFormDialog"
             >
               Cancelar
             </v-btn>
