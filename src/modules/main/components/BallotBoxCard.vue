@@ -2,7 +2,6 @@
 import type { BallotBox } from '../types/Election'
 interface Props {
   ballotBox: BallotBox
-  isReady: boolean
 }
 defineProps<Props>()
 
@@ -20,17 +19,14 @@ const handleEnable = (ballot_box_id: string | number) => {
 const handleMonitoring = (ballot_box_id: string | number) => {
   console.log('vai vai monitorar a urna', ballot_box_id)
 }
-const goToBallotBox = (ballot_box_id: string | number) => {
-  console.log('Abre a urna ', ballot_box_id)
-}
 </script>
 
 <template>
   <v-responsive class="mx-2 my-1">
     <v-card
       class="rounded-xl"
-      :color="!isReady ? 'red' : 'green'"
-      :loading="!isReady"
+      :color="ballotBox.ready ? 'red' : 'green'"
+      :loading="ballotBox.ready ? true : false"
       variant="tonal"
     >
       <template #loader="{ isActive }"
@@ -42,30 +38,33 @@ const goToBallotBox = (ballot_box_id: string | number) => {
         ></v-progress-linear
       ></template>
       <template #title>
-        <div
-          class="d-flex justify-space-between align-center cursor-pointer"
-          @click="goToBallotBox(ballotBox.id)"
+        <v-list-item
+          class="pa-0"
+          nav
+          :subtitle="ballotBox.ready ? 'Em votação' : 'Disponível'"
+          :title="ballotBox.site"
+          :to="{ name: 'BallotBoxView', params: { id: ballotBox.id } }"
         >
-          <div>
-            <span class="text-h6">Urna {{ ballotBox.site }}</span>
-            <span class="text-subtitle-1">
-              ({{ `${!isReady ? 'Em votação' : 'Disponível'}` }})</span
-            >
-          </div>
-          <div>
+          <template v-slot:prepend>
+            <v-avatar :color="ballotBox.ready ? 'error' : 'success'">
+              <v-icon color="white">{{
+                !ballotBox.ready ? 'mdi-cancel' : 'mdi-check'
+              }}</v-icon>
+            </v-avatar>
+          </template>
+
+          <template v-slot:append>
             <v-btn
-              icon
+              icon="mdi-redo"
               variant="text"
-            >
-              <v-icon>mdi-redo</v-icon>
-            </v-btn>
-          </div>
-        </div>
+            ></v-btn>
+          </template>
+        </v-list-item>
       </template>
       <v-card-actions class="d-flex justify-center">
         <v-btn @click="handleMonitoring(ballotBox.id)">Monitorar</v-btn>
         <v-btn
-          v-if="!isReady"
+          v-if="ballotBox.ready"
           @click="handleDisable(ballotBox.id)"
           >Desabilitar</v-btn
         >
