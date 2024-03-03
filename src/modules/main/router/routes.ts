@@ -39,8 +39,8 @@ const routes: CustomRouteRecordRaw[] = [
         },
         props: (router) => ({ id: router.params.id }),
         beforeEnter: (to, from, next) => {
-          const electionReady = false
-          //const electionReady = true
+          //const electionReady = false
+          const electionReady = true
           if (!electionReady) {
             next({ name: 'BallotBoxNotReady', params: { id: to.params.id } })
           } else {

@@ -65,10 +65,7 @@ const deleteItemConfirm = (election_id: string) => {
       </div></template
     >
     <template #top>
-      <v-toolbar
-        color="transparent"
-        density="compact"
-      >
+      <v-toolbar color="transparent">
         <template
           v-if="title"
           #title
@@ -79,7 +76,7 @@ const deleteItemConfirm = (election_id: string) => {
             v-model="dialogForm"
             max-width="500px"
           >
-            <template v-slot:activator="{ props }">
+            <template #activator="{ props }">
               <v-btn
                 color="success"
                 prepend-icon="mdi-plus-thick"
