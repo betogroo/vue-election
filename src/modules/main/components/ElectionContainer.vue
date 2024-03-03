@@ -44,52 +44,53 @@ await fetchBallotBox(props.id)
     <h2 class="text-body-1">{{ election.date }}</h2>
   </v-container>
   <v-container>
-    <v-sheet class="d-flex align-center justify-space-between">
-      <h1 class="text-h5">Urnas</h1>
-
-      <v-dialog
-        v-model="ballotBoxFormDialog"
-        max-width="500px"
-      >
-        <template v-slot:activator="{ props }">
-          <v-btn
-            color="success"
-            prepend-icon="mdi-plus-thick"
-            variant="outlined"
-            v-bind="props"
-          >
-            Cadastrar {{ `Urna` }}
-          </v-btn>
-        </template>
-        <v-card>
-          <v-card-title>
-            <span class="text-h5">Cadastrar {{ `Urna` }}</span>
-          </v-card-title>
-
-          <v-card-text>
-            <v-container>
-              <slot name="addForm"
-                ><BallotBoxForm
-                  :election_id="id"
-                  @handle-submit="(data) => addBallotBox(data)"
-              /></slot>
-            </v-container>
-          </v-card-text>
-
-          <v-card-actions>
-            <v-spacer></v-spacer>
+    <v-toolbar color="transparent">
+      <template #title><h1 class="text-h5">Urnas</h1></template>
+      <template #append>
+        <v-dialog
+          v-model="ballotBoxFormDialog"
+          max-width="500px"
+        >
+          <template v-slot:activator="{ props }">
             <v-btn
-              block
-              color="warning"
+              color="success"
+              prepend-icon="mdi-plus-thick"
               variant="outlined"
-              @click="ballotBoxCloseFormDialog"
+              v-bind="props"
             >
-              Cancelar
+              Cadastrar {{ `Urna` }}
             </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-sheet>
+          </template>
+          <v-card>
+            <v-card-title>
+              <span class="text-h5">Cadastrar {{ `Urna` }}</span>
+            </v-card-title>
+
+            <v-card-text>
+              <v-container>
+                <slot name="addForm"
+                  ><BallotBoxForm
+                    :election_id="id"
+                    @handle-submit="(data) => addBallotBox(data)"
+                /></slot>
+              </v-container>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                block
+                color="warning"
+                variant="outlined"
+                @click="ballotBoxCloseFormDialog"
+              >
+                Cancelar
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </template>
+    </v-toolbar>
     <div class="d-flex flex-wrap align-center justify-center">
       <BallotBoxCard
         v-for="item in ballotBoxList"
