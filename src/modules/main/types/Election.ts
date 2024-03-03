@@ -31,7 +31,6 @@ export const electionSchemaInsert = electionSchema.omit({
 export const electionSchemaList = z.array(electionSchema)
 
 export type Election = z.infer<typeof electionSchema>
-
 export type ElectionInsert = z.infer<typeof electionSchemaInsert>
 
 export const candidateSchema = z.object({
@@ -47,7 +46,7 @@ export const candidateSchemaInsert = candidateSchema.omit({
   created_at: true,
 })
 
-export const candidatesSchema = z.array(candidateSchema)
+export const candidateListSchema = z.array(candidateSchema)
 
 export type Candidate = z.infer<typeof candidateSchema>
 export type CandidateInsert = z.infer<typeof candidateSchemaInsert>

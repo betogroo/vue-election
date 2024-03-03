@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { supabase } from '@/plugins/supabase'
-import { type Candidate, candidatesSchema } from '../types/Election'
+import { type Candidate, candidateListSchema } from '../types/Election'
 import { TableHeader } from '@/shared/types/App'
 const useCandidates = () => {
   const candidates = ref<Candidate[]>([])
@@ -18,7 +18,7 @@ const useCandidates = () => {
           `Erro ao buscar os Candidatos: ${err.message} (${err.code})`,
         )
       if (!data) throw new Error('Nenhum candidato cadastrado!')
-      candidates.value = candidatesSchema.parse(data)
+      candidates.value = candidateListSchema.parse(data)
       return candidates
     } catch (err) {
       const e = err as Error
