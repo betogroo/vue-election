@@ -1,6 +1,8 @@
 {
   "name": "vue-election-system",
-  "author": {"name": "betogroo"},
+  "author": {
+    "name": "betogroo"
+  },
   "displayName": "Sistema de Eleição",
   "version": "0.8.0",
   "private": true,
