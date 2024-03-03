@@ -96,7 +96,6 @@ await fetchBallotBox(props.id)
         :key="item.id"
         :ballot-box="item"
         :is-ready="ready()"
-        max-width="300"
       />
     </div>
   </v-container>
