@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { BallotBox } from '../types/Election'
 interface Props {
   ballotBox: BallotBox
 }
-defineProps<Props>()
+const props = defineProps<Props>()
 
 const $emit = defineEmits<{
   'handle-disable': [ballot_box_id: string | number]
@@ -19,20 +20,33 @@ const handleEnable = (ballot_box_id: string | number) => {
 const handleMonitoring = (ballot_box_id: string | number) => {
   console.log('vai vai monitorar a urna', ballot_box_id)
 }
+
+const successColor = 'success'
+const errorColor = 'error'
+const color = computed(() =>
+  props.ballotBox.ready ? errorColor : successColor,
+)
+const loading = computed(() => (props.ballotBox.ready ? true : false))
+const icon = computed(() =>
+  !props.ballotBox.ready ? 'mdi-cancel' : 'mdi-check',
+)
+const readyText = computed(() =>
+  props.ballotBox.ready ? 'Em votação' : 'Disponível',
+)
 </script>
 
 <template>
   <v-responsive class="mx-2 my-1">
     <v-card
       class="rounded-xl"
-      :color="ballotBox.ready ? 'red' : 'green'"
-      :loading="ballotBox.ready ? true : false"
+      :color="color"
+      :loading="loading"
       variant="tonal"
     >
       <template #loader="{ isActive }"
         ><v-progress-linear
           v-if="isActive"
-          color="green"
+          :color="successColor"
           height="4"
           indeterminate
         ></v-progress-linear
@@ -41,15 +55,13 @@ const handleMonitoring = (ballot_box_id: string | number) => {
         <v-list-item
           class="pa-0"
           nav
-          :subtitle="ballotBox.ready ? 'Em votação' : 'Disponível'"
+          :subtitle="readyText"
           :title="ballotBox.site"
           :to="{ name: 'BallotBoxView', params: { id: ballotBox.id } }"
         >
           <template v-slot:prepend>
-            <v-avatar :color="ballotBox.ready ? 'error' : 'success'">
-              <v-icon color="white">{{
-                !ballotBox.ready ? 'mdi-cancel' : 'mdi-check'
-              }}</v-icon>
+            <v-avatar :color="color">
+              <v-icon color="white">{{ icon }}</v-icon>
             </v-avatar>
           </template>
 
