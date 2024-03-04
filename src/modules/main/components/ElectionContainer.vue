@@ -13,9 +13,10 @@ const ready = () => {
 
 const { getElection, election } = useElection()
 const {
-  //closeAddDialog,
-  //addDialog,
+  //closeFormDialog: candidateCloseFormDialog,
+  formDialog: candidateFormDialog,
   fetchCandidates,
+  addCandidate,
   candidates,
   tableHeader: candidatesTableHeader,
 } = useCandidates()
@@ -102,12 +103,16 @@ await fetchBallotBox(props.id)
   </v-container>
   <v-container>
     <AppGenericTable
+      v-model="candidateFormDialog"
       :headers="candidatesTableHeader"
       :table-data="candidates"
       table-subject="Candidato"
       title="Candidatos"
     >
-      <template #addForm><CandidateForm :election_id="id" /></template
+      <template #addForm
+        ><CandidateForm
+          :election_id="id"
+          @handle-submit="(candidate) => addCandidate(candidate)" /></template
     ></AppGenericTable>
   </v-container>
 </template>

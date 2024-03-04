@@ -1,10 +1,15 @@
 import { ref } from 'vue'
 import { supabase } from '@/plugins/supabase'
-import { type Candidate, candidateListSchema } from '../types/Election'
+import {
+  type Candidate,
+  type CandidateInsert,
+  candidateListSchema,
+  candidateSchemaInsert,
+} from '../types/Election'
 import { TableHeader } from '@/shared/types/App'
 const useCandidates = () => {
   const candidates = ref<Candidate[]>([])
-  const addDialog = ref(false)
+  const formDialog = ref(false)
   const fetchCandidates = async (election_id: string) => {
     try {
       const { data, error: err } = await supabase
@@ -20,6 +25,28 @@ const useCandidates = () => {
       if (!data) throw new Error('Nenhum candidato cadastrado!')
       candidates.value = candidateListSchema.parse(data)
       return candidates
+    } catch (err) {
+      const e = err as Error
+      console.log(e)
+    }
+  }
+
+  const addCandidate = async (formData: CandidateInsert) => {
+    try {
+      const parsedData = candidateSchemaInsert.parse(formData)
+      const { data, error: err } = await supabase
+        .from('candidates')
+        .insert(parsedData)
+        .select()
+        .returns<Candidate>()
+      if (err || !data)
+        throw new Error(
+          `Erro ao tentar criar a urna: ${err.message} (${err.code})`,
+        )
+      formDialog.value = false
+      console.log(formData, parsedData, data)
+      console.log(data)
+      return data.id
     } catch (err) {
       const e = err as Error
       console.log(e)
@@ -45,11 +72,18 @@ const useCandidates = () => {
     },
   ]
 
-  const closeAddDialog = () => {
-    addDialog.value = false
+  const closeFormDialog = () => {
+    formDialog.value = false
   }
 
-  return { fetchCandidates, candidates, tableHeader, addDialog, closeAddDialog }
+  return {
+    fetchCandidates,
+    candidates,
+    tableHeader,
+    formDialog,
+    closeFormDialog,
+    addCandidate,
+  }
 }
 
 export default useCandidates
