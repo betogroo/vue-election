@@ -37,7 +37,7 @@ const onSubmit = handleSubmit(async () => {
     class="ma-1 pa-1"
     @submit.prevent="onSubmit"
   >
-    <v-row>
+    <v-row no-gutters>
       <v-col>
         <v-text-field
           v-model="site.value.value"

@@ -7,6 +7,7 @@ import BallotBoxCard from './BallotBoxCard.vue'
 import ElectionContainer from './ElectionContainer.vue'
 import ElectionForm from './ElectionForm.vue'
 import BallotBoxForm from './BallotBoxForm.vue'
+import CandidateForm from './CandidateForm.vue'
 import ElectionsView from './ElectionsView.vue'
 import CandidateTable from './CandidateTable.vue'
 
@@ -15,8 +16,9 @@ export {
   AppLoading,
   AppVersion,
   BallotBoxCard,
-  ElectionContainer,
   BallotBoxForm,
+  ElectionContainer,
+  CandidateForm,
   ElectionForm,
   ElectionsView,
   CandidateTable,

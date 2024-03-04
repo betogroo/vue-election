@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useElection, useCandidates, useBallotBox } from '../composables'
-import { BallotBoxCard, CandidateTable, BallotBoxForm } from '.'
+import { BallotBoxCard, BallotBoxForm, AppGenericTable, CandidateForm } from '.'
 
 interface Props {
   id: string
@@ -101,9 +101,13 @@ await fetchBallotBox(props.id)
     </div>
   </v-container>
   <v-container>
-    <CandidateTable
-      :candidates="candidates"
-      :table-header="candidatesTableHeader"
-    />
+    <AppGenericTable
+      :headers="candidatesTableHeader"
+      :table-data="candidates"
+      table-subject="Candidato"
+      title="Candidatos"
+    >
+      <template #addForm><CandidateForm :election_id="id" /></template
+    ></AppGenericTable>
   </v-container>
 </template>
