@@ -10,6 +10,7 @@ import { TableHeader } from '@/shared/types/App'
 const useCandidates = () => {
   const candidates = ref<Candidate[]>([])
   const formDialog = ref(false)
+
   const fetchCandidates = async (election_id: string) => {
     try {
       const { data, error: err } = await supabase

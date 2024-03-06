@@ -37,13 +37,14 @@ export const candidateSchema = z.object({
   id: requiredUuidField(),
   created_at: z.string(),
   name: requiredMinStringField(5),
-  avatar: z.string().url('Url inválida').default(''),
-  candidate_number: z.string(),
+  avatar: z.string().url('Url inválida').nullable(),
+  candidate_number: requiredStringField(),
   election_id: z.string(),
 })
 export const candidateSchemaInsert = candidateSchema.omit({
   id: true,
   created_at: true,
+  avatar: true,
 })
 
 export const candidateListSchema = z.array(candidateSchema)

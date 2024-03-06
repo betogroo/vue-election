@@ -1,5 +1,5 @@
 //shared
-import { AppLoading, AppGenericTable } from '@/shared/components'
+import { AppLoading, AppGenericTable, AppFileBtn } from '@/shared/components'
 
 //module
 import AppVersion from './AppVersion.vue'
@@ -13,6 +13,7 @@ import CandidateTable from './CandidateTable.vue'
 
 export {
   AppGenericTable,
+  AppFileBtn,
   AppLoading,
   AppVersion,
   BallotBoxCard,
