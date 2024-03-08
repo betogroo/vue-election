@@ -1,5 +1,15 @@
-<script setup lang="ts" generic="T extends { id?: string }">
+<script
+  setup
+  lang="ts"
+  generic="
+    T extends {
+      date?: string
+      id?: string
+    }
+  "
+>
 import { ref } from 'vue'
+import { useHelpers } from '@/shared/composables'
 import type { TableHeader } from '@/shared/types/App'
 import { RouteRecordName } from 'vue-router'
 
@@ -20,6 +30,8 @@ withDefaults(defineProps<Props>(), {
 const $emit = defineEmits<{
   'delete-item-confirm': [election_id: string]
 }>()
+
+const { dateBr } = useHelpers()
 const dialogDelete = ref(false)
 const dialogForm = defineModel<boolean>()
 const idToDelete = ref<string>('')
@@ -64,6 +76,7 @@ const deleteItemConfirm = (election_id: string) => {
         <div v-else>Nenhum dado a exibir</div>
       </div></template
     >
+    <template #item.date="{ item }"> {{ dateBr(item.date!) }} </template>
     <template #top>
       <v-toolbar color="transparent">
         <template
