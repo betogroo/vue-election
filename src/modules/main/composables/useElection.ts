@@ -59,6 +59,7 @@ const useElection = () => {
         throw new Error(
           `Erro ao buscar as eleições: ${err.message} (${err.code})`,
         )
+      //data.map((item) => (item.date = dateBr(item.date)))
       elections.value = electionSchemaList.parse(data)
     } catch (err) {
       const e = err as Error
