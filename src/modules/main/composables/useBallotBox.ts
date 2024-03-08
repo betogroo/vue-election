@@ -11,8 +11,8 @@ const useBallotBox = () => {
   const ballotBoxList = ref<BallotBox[]>([])
   const formDialog = ref(false)
   const addBallotBox = async (formData: BallotBoxInsert) => {
-    const parsedData = ballotBoxSchemaInsert.parse(formData)
     try {
+      const parsedData = ballotBoxSchemaInsert.parse(formData)
       if (!parsedData.election_id)
         throw new Error('Erro ao tentar criar a urna:')
       const { data, error: err } = await supabase

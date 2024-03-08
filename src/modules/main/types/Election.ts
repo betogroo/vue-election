@@ -31,15 +31,14 @@ export const electionSchemaInsert = electionSchema.omit({
 export const electionSchemaList = z.array(electionSchema)
 
 export type Election = z.infer<typeof electionSchema>
-
 export type ElectionInsert = z.infer<typeof electionSchemaInsert>
 
 export const candidateSchema = z.object({
   id: requiredUuidField(),
   created_at: z.string(),
   name: requiredMinStringField(5),
-  avatar: z.string().url('Url inválida').default(''),
-  candidate_number: z.string(),
+  avatar: z.string().url('Url inválida').default('https://picsum.photos/200'),
+  candidate_number: requiredStringField(),
   election_id: z.string(),
 })
 export const candidateSchemaInsert = candidateSchema.omit({
@@ -47,7 +46,7 @@ export const candidateSchemaInsert = candidateSchema.omit({
   created_at: true,
 })
 
-export const candidatesSchema = z.array(candidateSchema)
+export const candidateListSchema = z.array(candidateSchema)
 
 export type Candidate = z.infer<typeof candidateSchema>
 export type CandidateInsert = z.infer<typeof candidateSchemaInsert>
