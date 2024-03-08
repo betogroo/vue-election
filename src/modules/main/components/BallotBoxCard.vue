@@ -28,7 +28,7 @@ const color = computed(() =>
 )
 const loading = computed(() => (props.ballotBox.ready ? true : false))
 const icon = computed(() =>
-  !props.ballotBox.ready ? 'mdi-cancel' : 'mdi-check',
+  props.ballotBox.ready ? 'mdi-cancel' : 'mdi-check',
 )
 const readyText = computed(() =>
   props.ballotBox.ready ? 'Em votação' : 'Disponível',
