@@ -4,15 +4,13 @@ import { computed, ref } from 'vue'
 
 interface Props {
   election_id: string
-  //number_length: number
+  number_length: number
 }
 const props = defineProps<Props>()
 
 const $emit = defineEmits<{
   'handle-submit': [data: CandidateInsert]
 }>()
-
-const number_length = ref(3)
 
 const handleSubmit = () => {
   $emit('handle-submit', formData.value)
@@ -21,12 +19,14 @@ const resetForm = () => {
   formData.value = {
     name: '',
     candidate_number: '',
+    avatar: 'https://picsum.photos/200',
     election_id: props.election_id,
   }
 }
 const formData = ref<CandidateInsert>({
   name: '',
   candidate_number: '',
+  avatar: 'https://picsum.photos/200',
   election_id: props.election_id,
 })
 
@@ -35,7 +35,7 @@ const formError = computed(() => {
   let candidate_number = ''
   const name_error = !formData.value.name.length ? true : false
   const candidate_number_error =
-    formData.value.candidate_number.length < number_length.value ? true : false
+    formData.value.candidate_number.length < props.number_length ? true : false
   if (name_error) name = 'Campo é Obrigatório'
   if (candidate_number_error) candidate_number = 'Campo é Obrigatório'
 
@@ -80,7 +80,7 @@ const formError = computed(() => {
               v-model="formData.candidate_number"
               :error="formError.candidate_number ? true : false"
               label="Número do Candidato"
-              :length="3"
+              :length="number_length"
               variant="outlined"
               width="200"
             ></v-otp-input>

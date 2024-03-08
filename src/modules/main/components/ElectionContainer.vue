@@ -101,7 +101,7 @@ await fetchBallotBox(props.id)
       />
     </div>
   </v-container>
-  <v-container>
+  <v-container v-if="election">
     <AppGenericTable
       v-model="candidateFormDialog"
       :headers="candidatesTableHeader"
@@ -112,6 +112,7 @@ await fetchBallotBox(props.id)
       <template #addForm
         ><CandidateForm
           :election_id="id"
+          :number_length="election.candidate_number_length"
           @handle-submit="(candidate) => addCandidate(candidate)" /></template
     ></AppGenericTable>
   </v-container>
