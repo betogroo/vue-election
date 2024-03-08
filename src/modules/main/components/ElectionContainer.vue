@@ -20,7 +20,6 @@ const {
   deleteCandidate: _deleteCandidate,
   candidates,
   tableHeader: candidatesTableHeader,
-  isPending: isCandidatePending,
 } = useCandidates()
 const {
   ballotBoxList,

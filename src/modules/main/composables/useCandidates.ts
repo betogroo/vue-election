@@ -1,6 +1,5 @@
 import { ref } from 'vue'
 import { supabase } from '@/plugins/supabase'
-import { useHelpers } from '@/shared/composables'
 
 import {
   type Candidate,
@@ -9,7 +8,6 @@ import {
   candidateSchemaInsert,
 } from '../types/Election'
 import { IsPending, TableHeader } from '@/shared/types/App'
-const { delay } = useHelpers()
 
 const useCandidates = () => {
   const candidates = ref<Candidate[]>([])
