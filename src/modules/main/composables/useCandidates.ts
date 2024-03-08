@@ -1,15 +1,24 @@
 import { ref } from 'vue'
 import { supabase } from '@/plugins/supabase'
+import { useHelpers } from '@/shared/composables'
+
 import {
   type Candidate,
   type CandidateInsert,
   candidateListSchema,
   candidateSchemaInsert,
 } from '../types/Election'
-import { TableHeader } from '@/shared/types/App'
+import { IsPending, TableHeader } from '@/shared/types/App'
+const { delay } = useHelpers()
+
 const useCandidates = () => {
   const candidates = ref<Candidate[]>([])
   const formDialog = ref(false)
+
+  const error = ref<string | false>(false)
+  const isPending = ref<IsPending>({
+    value: false,
+  })
 
   const fetchCandidates = async (election_id: string) => {
     try {
@@ -53,6 +62,31 @@ const useCandidates = () => {
       console.log(e)
     }
   }
+  const deleteCandidate = async (id: string) => {
+    try {
+      error.value = false
+      isPending.value = {
+        action: 'delete-candidate-',
+        value: true,
+      }
+      const { error: err } = await supabase
+        .from('candidates')
+        .delete()
+        .eq('id', id)
+      if (err)
+        throw new Error(
+          `Erro ao tentar excluir a candidate: ${err.message} (${err.code})`,
+        )
+    } catch (err) {
+      const e = err as Error
+      console.error(e)
+    } finally {
+      isPending.value = {
+        action: '',
+        value: false,
+      }
+    }
+  }
 
   const tableHeader: TableHeader[] = [
     {
@@ -78,7 +112,10 @@ const useCandidates = () => {
   }
 
   return {
+    isPending,
+    error,
     fetchCandidates,
+    deleteCandidate,
     candidates,
     tableHeader,
     formDialog,
