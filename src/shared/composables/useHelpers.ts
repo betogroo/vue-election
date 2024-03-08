@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { format } from '@formkit/tempo'
 
 export const ErrorSchema = z.object({
   message: z.string(),
@@ -9,6 +10,11 @@ export const ErrorSchema = z.object({
   details: z.string().nullish(),
   hint: z.string().nullish(),
 })
+
+type DateFormat = 'long' | 'medium' | 'short' | 'full'
+
+const dateBr = (date: string, dateFormat: DateFormat = 'short') =>
+  format(date, dateFormat)
 
 const useHelpers = () => {
   const fetchData = (key: string) => {
@@ -88,6 +94,7 @@ const useHelpers = () => {
     return e.message
   }
   return {
+    dateBr,
     avatarInitials,
     delay,
     deleteItem,

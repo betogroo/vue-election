@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { useElection, useCandidates, useBallotBox } from '../composables'
+import {
+  useElection,
+  useCandidates,
+  useBallotBox,
+  useHelpers,
+} from '../composables'
 import { BallotBoxCard, BallotBoxForm, AppGenericTable, CandidateForm } from '.'
 
 interface Props {
@@ -53,7 +58,9 @@ await fetchBallotBox(props.id)
     <h2 class="text-subtitle-2">
       {{ election.description }}
     </h2>
-    <h2 class="text-body-1">{{ election.date }}</h2>
+    <h2 class="text-body-1">
+      eleição em {{ useHelpers().dateBr(election.date, 'long') }}
+    </h2>
   </v-container>
   <v-container>
     <v-toolbar color="transparent">
