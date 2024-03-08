@@ -17,6 +17,7 @@ const {
   formDialog: candidateFormDialog,
   fetchCandidates,
   addCandidate,
+  deleteCandidate: _deleteCandidate,
   candidates,
   tableHeader: candidatesTableHeader,
 } = useCandidates()
@@ -27,6 +28,16 @@ const {
   closeFormDialog: ballotBoxCloseFormDialog,
   fetchBallotBox,
 } = useBallotBox()
+
+const deleteCandidate = async (id: string) => {
+  try {
+    await _deleteCandidate(id)
+    await fetchCandidates(props.id)
+  } catch (err) {
+    const e = err as Error
+    console.error(e)
+  }
+}
 
 await getElection(props.id)
 await fetchCandidates(props.id)
@@ -108,6 +119,7 @@ await fetchBallotBox(props.id)
       :table-data="candidates"
       table-subject="Candidato"
       title="Candidatos"
+      @delete-item-confirm="(id) => deleteCandidate(id)"
     >
       <template #addForm
         ><CandidateForm
