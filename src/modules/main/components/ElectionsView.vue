@@ -1,35 +1,15 @@
 <script setup lang="ts">
 import { useElection } from '../composables'
 import { AppGenericTable, ElectionForm } from '../components'
-import { ElectionInsert } from '../types/Election'
 const {
   elections,
-  deleteElection: _deleteElection,
+  deleteElection,
   fetchElections,
   electionTableHeader,
-  addElection: _addElection,
+  addElection,
   addElectionDialog,
   isPending,
 } = useElection()
-
-const addElection = async (election: ElectionInsert) => {
-  try {
-    await _addElection(election)
-    await fetchElections()
-  } catch (err) {
-    const e = err as Error
-    console.error(e)
-  }
-}
-const deleteElection = async (id: string) => {
-  try {
-    await _deleteElection(id)
-    await fetchElections()
-  } catch (err) {
-    const e = err as Error
-    console.error(e)
-  }
-}
 
 await fetchElections()
 </script>
