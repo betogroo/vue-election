@@ -4,6 +4,7 @@ import { supabase } from '@/plugins/supabase'
 import {
   type Candidate,
   type CandidateInsert,
+  candidateSchema,
   candidateListSchema,
   candidateSchemaInsert,
 } from '../types/Election'
@@ -122,6 +123,19 @@ const useCandidates = () => {
           (item) => item.id === event.old.id,
         )
         if (index !== -1) candidates.value.splice(index, 1)
+      },
+    )
+    .on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'candidates',
+      },
+
+      async (event) => {
+        const parsedData = candidateSchema.parse(event.new)
+        if (parsedData) candidates.value.push(parsedData)
       },
     )
     .subscribe()
