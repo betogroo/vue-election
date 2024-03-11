@@ -52,8 +52,6 @@ const useCandidates = () => {
           `Erro ao tentar criar a urna: ${err.message} (${err.code})`,
         )
       formDialog.value = false
-      console.log(formData, parsedData, data)
-      console.log(data)
       return data.id
     } catch (err) {
       const e = err as Error
@@ -108,6 +106,25 @@ const useCandidates = () => {
   const closeFormDialog = () => {
     formDialog.value = false
   }
+
+  supabase
+    .channel('candidates_box_change')
+    .on(
+      'postgres_changes',
+      {
+        event: 'DELETE',
+        schema: 'public',
+        table: 'candidates',
+      },
+
+      async (event) => {
+        const index = candidates.value.findIndex(
+          (item) => item.id === event.old.id,
+        )
+        if (index !== -1) candidates.value.splice(index, 1)
+      },
+    )
+    .subscribe()
 
   return {
     isPending,
