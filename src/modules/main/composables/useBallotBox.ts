@@ -48,6 +48,23 @@ const useBallotBox = () => {
       console.log(e)
     }
   }
+  const setBallotBoxReady = async (id: string, ready: string | null) => {
+    try {
+      const { error: err } = await supabase
+        .from('ballot_box')
+        .update({
+          ready,
+        })
+        .eq('id', id)
+      if (err)
+        throw new Error(
+          `Erro ao desabilitar urna: ${err.message} (${err.code})`,
+        )
+    } catch (err) {
+      const e = err as Error
+      console.log(e)
+    }
+  }
 
   const closeFormDialog = () => {
     formDialog.value = false
@@ -59,6 +76,7 @@ const useBallotBox = () => {
     closeFormDialog,
     fetchBallotBox,
     ballotBoxList,
+    setBallotBoxReady,
   }
 }
 

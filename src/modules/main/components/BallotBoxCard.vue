@@ -7,11 +7,10 @@ interface Props {
 const props = defineProps<Props>()
 
 const $emit = defineEmits<{
-  'handle-disable': [ballot_box_id: string | number]
+  'handle-disable': [ballot_box_id: string]
 }>()
 
-const handleDisable = (ballot_box_id: string | number) => {
-  console.log('vai desabilitar a urna', ballot_box_id)
+const handleDisable = (ballot_box_id: string) => {
   $emit('handle-disable', ballot_box_id)
 }
 const handleEnable = (ballot_box_id: string | number) => {

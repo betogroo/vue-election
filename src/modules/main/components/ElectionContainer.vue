@@ -32,6 +32,7 @@ const {
   formDialog: ballotBoxFormDialog,
   closeFormDialog: ballotBoxCloseFormDialog,
   fetchBallotBox,
+  setBallotBoxReady: _disableBallotBox,
 } = useBallotBox()
 
 const deleteCandidate = async (id: string) => {
@@ -42,6 +43,9 @@ const deleteCandidate = async (id: string) => {
     const e = err as Error
     console.error(e)
   }
+}
+const disableBallotBox = async (ballot_box_id: string) => {
+  await _disableBallotBox(ballot_box_id, null)
 }
 
 await getElection(props.id)
@@ -116,6 +120,7 @@ await fetchBallotBox(props.id)
         :key="item.id"
         :ballot-box="item"
         :is-ready="ready()"
+        @handle-disable="(ballot_box_id) => disableBallotBox(ballot_box_id)"
       />
     </div>
   </v-container>
