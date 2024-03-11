@@ -70,7 +70,7 @@ const useBallotBox = () => {
   }
 
   supabase
-    .channel('ballot_box_ready_change')
+    .channel('ballot_box_change')
     .on(
       'postgres_changes',
       {
@@ -98,7 +98,6 @@ const useBallotBox = () => {
 
       async (event) => {
         await fetchBallotBox(event.new.election_id)
-        console.log(event.new)
       },
     )
     .subscribe()
