@@ -25,7 +25,6 @@ const useBallotBox = () => {
           `Erro ao tentar criar a urna: ${err.message} (${err.code})`,
         )
       formDialog.value = false
-      console.log(formData, parsedData, data)
     } catch (err) {
       const e = err as Error
       console.log(e)
@@ -87,6 +86,19 @@ const useBallotBox = () => {
           (item) => item.id === old.id,
         )
         ballotBoxList.value[index] = newBallotBox as BallotBox
+      },
+    )
+    .on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'ballot_box',
+      },
+
+      async (event) => {
+        await fetchBallotBox(event.new.election_id)
+        console.log(event.new)
       },
     )
     .subscribe()
