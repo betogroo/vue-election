@@ -81,7 +81,12 @@ const useBallotBox = () => {
       },
 
       (event) => {
-        console.log(event.old, event.new)
+        console.log(event)
+        const { old, new: newBallotBox } = event
+        const index = ballotBoxList.value.findIndex(
+          (item) => item.id === old.id,
+        )
+        ballotBoxList.value[index] = newBallotBox as BallotBox
       },
     )
     .subscribe()
