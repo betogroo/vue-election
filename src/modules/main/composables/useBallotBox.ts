@@ -70,6 +70,22 @@ const useBallotBox = () => {
     formDialog.value = false
   }
 
+  supabase
+    .channel('ballot_box_ready_change')
+    .on(
+      'postgres_changes',
+      {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'ballot_box',
+      },
+
+      (event) => {
+        console.log(event.old, event.new)
+      },
+    )
+    .subscribe()
+
   return {
     addBallotBox,
     formDialog,
