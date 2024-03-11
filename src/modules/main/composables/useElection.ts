@@ -59,7 +59,6 @@ const useElection = () => {
         throw new Error(
           `Erro ao buscar as eleições: ${err.message} (${err.code})`,
         )
-      //data.map((item) => (item.date = dateBr(item.date)))
       elections.value = electionSchemaList.parse(data)
     } catch (err) {
       const e = err as Error
@@ -156,6 +155,36 @@ const useElection = () => {
       }
     }
   }
+
+  supabase
+    .channel('election_change')
+    .on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'election',
+      },
+      (event) => {
+        const parsedData = electionSchema.parse(event.new)
+        if (parsedData) elections.value.push(parsedData)
+      },
+    )
+    .on(
+      'postgres_changes',
+      {
+        event: 'DELETE',
+        schema: 'public',
+        table: 'election',
+      },
+      (event) => {
+        const index = elections.value.findIndex(
+          (item) => item.id === event.old.id,
+        )
+        if (index !== -1) elections.value.splice(index, 1)
+      },
+    )
+    .subscribe()
   return {
     addElectionDialog,
     election,

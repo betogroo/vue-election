@@ -11,6 +11,7 @@
     "firestore",
     "materialdesignicons",
     "pinia",
+    "postgres",
     "Roboto",
     "supabase",
     "unsub",

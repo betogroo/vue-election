@@ -33,7 +33,6 @@ const candidate_number_length = useField(
 const onSubmit = handleSubmit(async () => {
   try {
     const parsedValues = electionSchemaInsert.parse(values)
-    console.log(parsedValues)
     $emit('handle-submit', parsedValues)
   } catch (err) {
     if (err instanceof z.ZodError) console.warn(err.issues)
