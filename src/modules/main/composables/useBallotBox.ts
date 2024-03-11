@@ -2,6 +2,7 @@ import { supabase } from '@/plugins/supabase'
 import {
   BallotBox,
   BallotBoxInsert,
+  ballotBoxSchema,
   ballotBoxSchemaInsert,
   ballotBoxListSchema,
 } from '../types/Election'
@@ -80,12 +81,12 @@ const useBallotBox = () => {
       },
 
       (event) => {
-        console.log(event)
         const { old, new: newBallotBox } = event
+        const parsedData = ballotBoxSchema.parse(newBallotBox)
         const index = ballotBoxList.value.findIndex(
           (item) => item.id === old.id,
         )
-        ballotBoxList.value[index] = newBallotBox as BallotBox
+        ballotBoxList.value[index] = parsedData
       },
     )
     .on(
@@ -96,8 +97,9 @@ const useBallotBox = () => {
         table: 'ballot_box',
       },
 
-      async (event) => {
-        await fetchBallotBox(event.new.election_id)
+      (event) => {
+        const parsedData = ballotBoxSchema.parse(event.new)
+        if (parsedData) ballotBoxList.value.push(parsedData)
       },
     )
     .subscribe()
