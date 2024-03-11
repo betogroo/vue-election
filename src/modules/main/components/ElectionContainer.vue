@@ -38,7 +38,6 @@ const {
 const deleteCandidate = async (id: string) => {
   try {
     await _deleteCandidate(id)
-    await fetchCandidates(props.id)
   } catch (err) {
     const e = err as Error
     console.error(e)

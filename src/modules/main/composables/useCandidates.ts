@@ -4,6 +4,7 @@ import { supabase } from '@/plugins/supabase'
 import {
   type Candidate,
   type CandidateInsert,
+  candidateSchema,
   candidateListSchema,
   candidateSchemaInsert,
 } from '../types/Election'
@@ -52,8 +53,6 @@ const useCandidates = () => {
           `Erro ao tentar criar a urna: ${err.message} (${err.code})`,
         )
       formDialog.value = false
-      console.log(formData, parsedData, data)
-      console.log(data)
       return data.id
     } catch (err) {
       const e = err as Error
@@ -108,6 +107,38 @@ const useCandidates = () => {
   const closeFormDialog = () => {
     formDialog.value = false
   }
+
+  supabase
+    .channel('candidates_box_change')
+    .on(
+      'postgres_changes',
+      {
+        event: 'DELETE',
+        schema: 'public',
+        table: 'candidates',
+      },
+
+      async (event) => {
+        const index = candidates.value.findIndex(
+          (item) => item.id === event.old.id,
+        )
+        if (index !== -1) candidates.value.splice(index, 1)
+      },
+    )
+    .on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'candidates',
+      },
+
+      async (event) => {
+        const parsedData = candidateSchema.parse(event.new)
+        if (parsedData) candidates.value.push(parsedData)
+      },
+    )
+    .subscribe()
 
   return {
     isPending,
