@@ -1,3 +1,4 @@
+import { ref } from 'vue'
 import { supabase } from '@/plugins/supabase'
 import {
   BallotBox,
@@ -6,9 +7,11 @@ import {
   ballotBoxSchemaInsert,
   ballotBoxListSchema,
 } from '../types/Election'
-import { ref } from 'vue'
+import { useHelpers } from '.'
+const { delay } = useHelpers()
 
 const useBallotBox = () => {
+  const ballotBox = ref<BallotBox>()
   const ballotBoxList = ref<BallotBox[]>([])
   const formDialog = ref(false)
   const addBallotBox = async (formData: BallotBoxInsert) => {
@@ -42,6 +45,26 @@ const useBallotBox = () => {
         throw new Error(`Erro ao buscar as urna: ${err.message} (${err.code})`)
       const parsedData = ballotBoxListSchema.parse(data)
       ballotBoxList.value = parsedData
+      return data
+    } catch (err) {
+      const e = err as Error
+      console.log(e)
+    }
+  }
+
+  const getBallotBox = async (id: string) => {
+    await delay(1000)
+    try {
+      const { data, error: err } = await supabase
+        .from('ballot_box')
+        .select('*')
+        .eq('id', id)
+        .returns<BallotBox[]>()
+        .single()
+      if (err || !data)
+        throw new Error(`Erro ao buscar as urna: ${err.message} (${err.code})`)
+      const parsedData = ballotBoxSchema.parse(data)
+      ballotBox.value = parsedData
       return data
     } catch (err) {
       const e = err as Error
@@ -106,10 +129,12 @@ const useBallotBox = () => {
 
   return {
     addBallotBox,
+    getBallotBox,
     formDialog,
     closeFormDialog,
     fetchBallotBox,
     ballotBoxList,
+    ballotBox,
     setBallotBoxReady,
   }
 }
