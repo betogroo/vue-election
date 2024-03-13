@@ -11,6 +11,7 @@ import CandidateForm from './CandidateForm.vue'
 import ElectionsView from './ElectionsView.vue'
 import CandidateTable from './CandidateTable.vue'
 import BallotBoxAdminContainer from './BallotBoxAdminContainer.vue'
+import ElectionHeader from './ElectionHeader.vue'
 
 export {
   AppGenericTable,
@@ -25,4 +26,5 @@ export {
   ElectionsView,
   CandidateTable,
   BallotBoxAdminContainer,
+  ElectionHeader,
 }

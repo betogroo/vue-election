@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { useElection, useCandidates, useBallotBox } from '../composables'
 import {
-  useElection,
-  useCandidates,
-  useBallotBox,
-  useHelpers,
-} from '../composables'
-import { BallotBoxCard, BallotBoxForm, AppGenericTable, CandidateForm } from '.'
+  BallotBoxCard,
+  BallotBoxForm,
+  AppGenericTable,
+  CandidateForm,
+  ElectionHeader,
+} from '.'
 
 interface Props {
   id: string
@@ -54,16 +55,7 @@ await fetchBallotBox(props.id)
 
 <template>
   <v-container v-if="election">
-    <h1 class="d-flex">
-      <div class="text-h6">{{ election.name }}</div>
-      <div class="text-h6 font-weight-light">- {{ election.organization }}</div>
-    </h1>
-    <h2 class="text-subtitle-2">
-      {{ election.description }}
-    </h2>
-    <h2 class="text-body-1">
-      eleição em {{ useHelpers().dateBr(election.date, 'long') }}
-    </h2>
+    <ElectionHeader :election="election" />
   </v-container>
   <v-container>
     <v-toolbar color="transparent">
