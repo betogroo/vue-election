@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ElectionHeader } from '.'
 interface Props {
   id: string
 }
@@ -20,6 +21,9 @@ try {
 </script>
 
 <template>
+  <v-container v-if="election">
+    <ElectionHeader :election="election" />
+  </v-container>
   <div>{{ ballotBox }}</div>
   <div>{{ election }}</div>
 </template>
