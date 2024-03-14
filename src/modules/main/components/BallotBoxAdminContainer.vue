@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ElectionHeader } from '.'
+import { ElectionHeader, AppCardTitle } from '.'
 interface Props {
   id: string
 }
@@ -31,16 +31,16 @@ try {
       :color="ballotBox.ready ? 'error' : 'success'"
       variant="outlined"
     >
+      <AppCardTitle
+        title="Monitoramento de Urna"
+        :title-plus="ballotBox.site"
+      />
+
       <template #prepend>
         <v-card-title>
           <ElectionHeader :election="election" />
         </v-card-title>
       </template>
-      <v-card-title
-        ><h1 class="text-h4">
-          {{ ballotBox.site }}
-        </h1></v-card-title
-      >
     </v-card>
   </v-container>
 </template>
