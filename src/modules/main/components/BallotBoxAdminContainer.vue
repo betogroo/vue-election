@@ -21,9 +21,26 @@ try {
 </script>
 
 <template>
-  <v-container v-if="election">
-    <ElectionHeader :election="election" />
+  <v-container
+    v-if="election"
+    class="pa-2"
+  >
+    <v-card
+      v-if="ballotBox"
+      class="fill-height w-100 pa-4"
+      :color="ballotBox.ready ? 'error' : 'success'"
+      variant="outlined"
+    >
+      <template #prepend>
+        <v-card-title>
+          <ElectionHeader :election="election" />
+        </v-card-title>
+      </template>
+      <v-card-title
+        ><h1 class="text-h4">
+          {{ ballotBox.site }}
+        </h1></v-card-title
+      >
+    </v-card>
   </v-container>
-  <div>{{ ballotBox }}</div>
-  <div>{{ election }}</div>
 </template>
