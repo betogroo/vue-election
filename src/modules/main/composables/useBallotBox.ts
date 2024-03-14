@@ -104,6 +104,12 @@ const useBallotBox = () => {
       },
 
       (event) => {
+        if (ballotBox.value && event.old.id === ballotBox.value.id) {
+          console.log(event)
+          console.log('Vai mudar a tabela')
+          const { new: newBallotBox } = event
+          ballotBox.value = newBallotBox as BallotBox
+        }
         const { old, new: newBallotBox } = event
         const parsedData = ballotBoxSchema.parse(newBallotBox)
         const index = ballotBoxList.value.findIndex(

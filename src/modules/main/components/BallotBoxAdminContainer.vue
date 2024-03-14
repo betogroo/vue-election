@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { watch } from 'vue'
 import { ElectionHeader, AppCardTitle } from '.'
 interface Props {
   id: string
@@ -6,7 +7,7 @@ interface Props {
 const props = defineProps<Props>()
 
 import { useBallotBox, useElection } from '../composables'
-const { getBallotBox, ballotBox } = useBallotBox()
+const { getBallotBox, ballotBox, setBallotBoxReady } = useBallotBox()
 const { getElection, election } = useElection()
 
 try {
@@ -18,6 +19,21 @@ try {
   const e = err as Error
   console.log(e)
 }
+const resetRelease = async () => {
+  await setBallotBoxReady(ballotBox.value!.id, null)
+  // await fetchAvailableVoters(ballotBox.value.election_id)
+  // voter_ra.value = ''
+  // form.value = false
+  // voter.value = null
+}
+watch(
+  () => ballotBox.value!.ready,
+  async (newValue) => {
+    if (newValue === null) {
+      await resetRelease()
+    }
+  },
+)
 </script>
 
 <template>
@@ -41,6 +57,19 @@ try {
           <ElectionHeader :election="election" />
         </v-card-title>
       </template>
+      <template v-if="ballotBox.ready">
+        <v-progress-circular
+          color="error"
+          indeterminate
+        ></v-progress-circular>
+        Aguarde o Candidato terminar seu voto
+        <v-btn
+          color="error"
+          @click="resetRelease"
+          >Cancelar</v-btn
+        >
+      </template>
+      <template v-else>Liberar</template>
     </v-card>
   </v-container>
 </template>
