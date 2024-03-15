@@ -67,3 +67,12 @@ export const ballotBoxSchemaInsert = ballotBoxSchema.pick({
 
 export type BallotBox = z.infer<typeof ballotBoxSchema>
 export type BallotBoxInsert = z.infer<typeof ballotBoxSchemaInsert>
+
+export const voterSchema = z.object({
+  id: z.string(),
+  created_at: z.string().optional(),
+  name: z.string().min(1, 'Obrigatório'),
+  ra: z.number(),
+})
+export const voterListSchema = z.array(voterSchema)
+export type Voter = z.infer<typeof voterSchema>
