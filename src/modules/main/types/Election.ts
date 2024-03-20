@@ -14,7 +14,7 @@ export const electionSchema = z.object({
   id: requiredUuidField(),
   created_at: z.string(),
   date: requiredStringField(),
-  name: requiredMinStringField(5),
+  name: requiredMinStringField(3),
   description: requiredMinStringField(5),
   uppercase: z.boolean().default(false),
   ready: z.boolean().default(false),
@@ -36,7 +36,7 @@ export type ElectionInsert = z.infer<typeof electionSchemaInsert>
 export const candidateSchema = z.object({
   id: requiredUuidField(),
   created_at: z.string(),
-  name: requiredMinStringField(5),
+  name: requiredMinStringField(3),
   avatar: z.string().url('Url inválida').default('https://picsum.photos/200'),
   candidate_number: requiredStringField(),
   election_id: z.string(),
