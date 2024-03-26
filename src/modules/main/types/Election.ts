@@ -14,7 +14,7 @@ export const electionSchema = z.object({
   id: requiredUuidField(),
   created_at: z.string(),
   date: requiredStringField(),
-  name: requiredMinStringField(5),
+  name: requiredMinStringField(3),
   description: requiredMinStringField(5),
   uppercase: z.boolean().default(false),
   ready: z.boolean().default(false),
@@ -36,7 +36,7 @@ export type ElectionInsert = z.infer<typeof electionSchemaInsert>
 export const candidateSchema = z.object({
   id: requiredUuidField(),
   created_at: z.string(),
-  name: requiredMinStringField(5),
+  name: requiredMinStringField(3),
   avatar: z.string().url('Url inválida').default('https://picsum.photos/200'),
   candidate_number: requiredStringField(),
   election_id: z.string(),
@@ -67,3 +67,12 @@ export const ballotBoxSchemaInsert = ballotBoxSchema.pick({
 
 export type BallotBox = z.infer<typeof ballotBoxSchema>
 export type BallotBoxInsert = z.infer<typeof ballotBoxSchemaInsert>
+
+export const voterSchema = z.object({
+  id: z.string(),
+  created_at: z.string().optional(),
+  name: z.string().min(1, 'Obrigatório'),
+  ra: z.number(),
+})
+export const voterListSchema = z.array(voterSchema)
+export type Voter = z.infer<typeof voterSchema>

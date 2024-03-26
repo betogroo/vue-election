@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { BallotBoxAdminContainer, AppLoading } from '../components'
 interface Props {
   id: string
 }
@@ -6,5 +7,8 @@ defineProps<Props>()
 </script>
 
 <template>
-  <h1>Aqui é a urna {{ id }} em sua página de administração</h1>
+  <Suspense>
+    <BallotBoxAdminContainer :id="id" />
+    <template #fallback><AppLoading /></template>
+  </Suspense>
 </template>

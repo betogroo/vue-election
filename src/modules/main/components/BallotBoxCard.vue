@@ -16,9 +16,6 @@ const handleDisable = (ballot_box_id: string) => {
 const handleEnable = (ballot_box_id: string | number) => {
   console.log('vai habilitar a urna', ballot_box_id)
 }
-const handleMonitoring = (ballot_box_id: string | number) => {
-  console.log('vai vai monitorar a urna', ballot_box_id)
-}
 
 const successColor = 'success'
 const errorColor = 'error'
@@ -73,7 +70,9 @@ const readyText = computed(() =>
         </v-list-item>
       </template>
       <v-card-actions class="d-flex justify-center">
-        <v-btn @click="handleMonitoring(ballotBox.id)">Monitorar</v-btn>
+        <v-btn :to="{ name: 'BallotBoxAdmin', params: { id: ballotBox.id } }"
+          >Monitorar</v-btn
+        >
         <v-btn
           v-if="ballotBox.ready"
           @click="handleDisable(ballotBox.id)"
