@@ -23,6 +23,7 @@
     "@mdi/font": "7.4.47",
     "@supabase/supabase-js": "^2.39.7",
     "@vee-validate/zod": "^4.12.5",
+    "@vueuse/core": "^10.9.0",
     "core-js": "^3.36.0",
     "roboto-fontface": "*",
     "vee-validate": "^4.12.5",
