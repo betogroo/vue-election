@@ -6,6 +6,7 @@ import {
   ballotBoxSchema,
   ballotBoxSchemaInsert,
   ballotBoxListSchema,
+  Candidate,
 } from '../types/Election'
 import { useHelpers } from '.'
 const { delay } = useHelpers()
@@ -14,6 +15,15 @@ const useBallotBox = () => {
   const ballotBox = ref<BallotBox>()
   const ballotBoxList = ref<BallotBox[]>([])
   const formDialog = ref(false)
+  const numericDisplay = ref('')
+  const selectedCandidate = ref<Candidate | undefined>(undefined)
+
+  const updateDisplay = (value: number | string) => {
+    numericDisplay.value += value
+  }
+  const resetDisplay = () => {
+    numericDisplay.value = ''
+  }
   const addBallotBox = async (formData: BallotBoxInsert) => {
     try {
       const parsedData = ballotBoxSchemaInsert.parse(formData)
@@ -135,9 +145,13 @@ const useBallotBox = () => {
 
   return {
     addBallotBox,
+    selectedCandidate,
     getBallotBox,
     formDialog,
+    numericDisplay,
     closeFormDialog,
+    updateDisplay,
+    resetDisplay,
     fetchBallotBox,
     ballotBoxList,
     ballotBox,

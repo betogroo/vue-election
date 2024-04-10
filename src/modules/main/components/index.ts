@@ -18,6 +18,8 @@ import CandidateTable from './CandidateTable.vue'
 import BallotBoxAdminContainer from './BallotBoxAdminContainer.vue'
 import ElectionHeader from './ElectionHeader.vue'
 
+import BallotBox from './BallotBox/BallotBox.vue'
+
 export {
   AppGenericTable,
   AppFileBtn,
@@ -27,6 +29,7 @@ export {
   BallotBoxCard,
   BallotBoxForm,
   ElectionContainer,
+  BallotBox,
   CandidateForm,
   ElectionForm,
   ElectionsView,

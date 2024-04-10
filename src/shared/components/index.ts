@@ -3,5 +3,13 @@ import AppFileBtn from './app/AppFileBtn.vue'
 import AppLoading from './app/AppLoading.vue'
 import AppGenericTable from './app/AppGenericTable.vue'
 import AppCardTitle from './app/AppCardTitle.vue'
+import AppNumericBtn from './app/AppNumericBtn.vue'
 
-export { AppBar, AppFileBtn, AppGenericTable, AppLoading, AppCardTitle }
+export {
+  AppBar,
+  AppFileBtn,
+  AppGenericTable,
+  AppLoading,
+  AppCardTitle,
+  AppNumericBtn,
+}
