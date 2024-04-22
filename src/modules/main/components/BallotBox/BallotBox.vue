@@ -24,6 +24,10 @@ const { fetchCandidates, candidates } = useCandidates()
 const { fetchVoters, fetchAvailableVoters, voters, availableVoters } =
   useVoters()
 
+const confirmVote = () => {
+  console.log('vai voatar no ', numericDisplay.value)
+}
+
 try {
   await getBallotBox(props.id)
   if (!ballotBox.value) throw new Error('Urna não encontrada')
@@ -62,12 +66,20 @@ try {
           <BallotBoxDisplayEnd />
         </template>
         <template v-else>
-          <h1><BallotBoxNumericDisplay :content="numericDisplay" /></h1>
+          <h1>
+            <BallotBoxNumericDisplay
+              :content="numericDisplay"
+              :length="election?.candidate_number_length"
+            />
+          </h1>
           <BallotBoxNumericKeyboard
             :keyboard-disabled="false"
             @handle-click="updateDisplay"
           />
-          <BallotBoxActionKeyboard @handle-reset="resetDisplay" />
+          <BallotBoxActionKeyboard
+            @handle-confirm="confirmVote"
+            @handle-reset="resetDisplay"
+          />
         </template>
       </v-col>
     </v-row>

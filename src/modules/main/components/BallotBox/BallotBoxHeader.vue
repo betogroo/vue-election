@@ -12,6 +12,6 @@ withDefaults(defineProps<Props>(), {
   <v-sheet
     class="text-h4 text-center"
     :class="uppercase ? 'text-uppercase' : ''"
-    >{{ organization }}</v-sheet
-  >
+    >{{ organization }}
+  </v-sheet>
 </template>
