@@ -4,6 +4,7 @@ import {
   BallotBoxDisplayEnd,
   BallotBoxNumericKeyboard,
   BallotBoxNumericDisplay,
+  BallotBoxCandidateDisplay,
   BallotBoxActionKeyboard,
 } from './'
 import {
@@ -12,6 +13,7 @@ import {
   useCandidates,
   useVoters,
 } from '../../composables'
+import { computed, watch } from 'vue'
 interface Props {
   id: string
 }
@@ -20,12 +22,17 @@ const props = defineProps<Props>()
 const { getBallotBox, ballotBox, numericDisplay, updateDisplay, resetDisplay } =
   useBallotBox()
 const { getElection, election } = useElection()
-const { fetchCandidates, candidates } = useCandidates()
+const { fetchCandidates, candidates, selectedCandidate } = useCandidates()
 const { fetchVoters, fetchAvailableVoters, voters, availableVoters } =
   useVoters()
 
 const confirmVote = () => {
-  console.log('vai voatar no ', numericDisplay.value)
+  console.log(
+    'vai voatar no ',
+    numericDisplay.value,
+    ballotBox.value.ready,
+    selectedCandidate.value,
+  )
 }
 
 try {
@@ -42,6 +49,23 @@ try {
   const e = err as Error
   console.log(e)
 }
+
+watch(
+  () => numericDisplay.value,
+  (newValue) => {
+    selectedCandidate.value = undefined
+    if (newValue.length === election.value.candidate_number_length) {
+      console.log('vai setar o selectCandidate')
+      selectedCandidate.value = candidates.value.find(
+        (candidate) => candidate.candidate_number === numericDisplay.value,
+      )
+    }
+  },
+)
+
+const candidateCard = computed<boolean>(() => {
+  return numericDisplay.value.length === election.value.candidate_number_length
+})
 </script>
 
 <template>
@@ -72,6 +96,10 @@ try {
               :length="election?.candidate_number_length"
             />
           </h1>
+          <BallotBoxCandidateDisplay
+            :candidate="selectedCandidate"
+            :visible="candidateCard"
+          />
           <BallotBoxNumericKeyboard
             :keyboard-disabled="false"
             @handle-click="updateDisplay"

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Candidate } from '../../types/Election'
 interface Props {
-  visible: boolean
+  visible?: boolean
   candidate: Candidate | undefined
 }
 withDefaults(defineProps<Props>(), {

@@ -108,6 +108,8 @@ const useCandidates = () => {
     formDialog.value = false
   }
 
+  const selectedCandidate = ref<Candidate | undefined>(undefined)
+
   supabase
     .channel('candidates_box_change')
     .on(
@@ -148,6 +150,7 @@ const useCandidates = () => {
     candidates,
     tableHeader,
     formDialog,
+    selectedCandidate,
     closeFormDialog,
     addCandidate,
   }
