@@ -14,7 +14,17 @@ const useElection = () => {
   const isPending = ref<IsPending>({
     value: false,
   })
-  const election = ref<Election>()
+  const election = ref<Election>({
+    id: '',
+    candidate_number_length: 3,
+    created_at: '',
+    date: '',
+    description: '',
+    name: '',
+    organization: '',
+    ready: false,
+    uppercase: false,
+  })
   const elections = ref<Election[]>([])
 
   const addElectionDialog = ref(false)

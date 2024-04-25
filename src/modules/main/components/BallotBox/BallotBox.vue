@@ -12,27 +12,40 @@ import {
   useElection,
   useCandidates,
   useVoters,
+  useVote,
 } from '../../composables'
 import { computed, watch } from 'vue'
+import { Vote } from '../../types/Election'
 interface Props {
   id: string
 }
 const props = defineProps<Props>()
 
-const { getBallotBox, ballotBox, numericDisplay, updateDisplay, resetDisplay } =
-  useBallotBox()
+const {
+  getBallotBox,
+  ballotBox,
+  numericDisplay,
+  updateDisplay,
+  resetDisplay,
+  setBallotBoxReady,
+} = useBallotBox()
 const { getElection, election } = useElection()
 const { fetchCandidates, candidates, selectedCandidate } = useCandidates()
 const { fetchVoters, fetchAvailableVoters, voters, availableVoters } =
   useVoters()
+const { addVote } = useVote()
 
-const confirmVote = () => {
-  console.log(
-    'vai voatar no ',
-    numericDisplay.value,
-    ballotBox.value.ready,
-    selectedCandidate.value,
-  )
+const confirmVote = async () => {
+  if (!election.value!.id || !selectedCandidate.value!.id) return
+  const vote: Vote = {
+    voter_id: ballotBox.value?.ready,
+    election_id: election.value!.id,
+    ballot_box_id: ballotBox.value!.id,
+    candidate_id: selectedCandidate.value!.id,
+  }
+  const recordedVote = await addVote(vote)
+  if (recordedVote) await setBallotBoxReady(ballotBox.value!.id, null)
+  console.log(vote)
 }
 
 try {
@@ -101,10 +114,14 @@ const candidateCard = computed<boolean>(() => {
             :visible="candidateCard"
           />
           <BallotBoxNumericKeyboard
-            :keyboard-disabled="false"
+            :keyboard-disabled="candidateCard || !ballotBox.ready"
             @handle-click="updateDisplay"
           />
           <BallotBoxActionKeyboard
+            :confirm-disabled="
+              !candidateCard || selectedCandidate === undefined
+            "
+            :reset-disabled="!numericDisplay.length"
             @handle-confirm="confirmVote"
             @handle-reset="resetDisplay"
           />

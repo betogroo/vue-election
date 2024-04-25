@@ -22,7 +22,8 @@ export const electionSchema = z.object({
   candidate_number_length: z
     .number({ invalid_type_error: form_number_only, required_error })
     .min(1, 'O número deve ser entre 1 e 5')
-    .max(5, 'O número deve ser entre 1 e 5'),
+    .max(5, 'O número deve ser entre 1 e 5')
+    .default(3),
 })
 export const electionSchemaInsert = electionSchema.omit({
   id: true,
@@ -76,3 +77,13 @@ export const voterSchema = z.object({
 })
 export const voterListSchema = z.array(voterSchema)
 export type Voter = z.infer<typeof voterSchema>
+
+export const voteSchema = z.object({
+  id: z.string().uuid().nullish(),
+  created_at: z.string().nullish(),
+  candidate_id: z.string().uuid(),
+  election_id: z.string(),
+  voter_id: z.string().uuid().nullish(),
+  ballot_box_id: z.string().uuid(),
+})
+export type Vote = z.infer<typeof voteSchema>
